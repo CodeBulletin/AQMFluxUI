@@ -1,0 +1,3 @@
+.hidelastdiv > div:last-child {
+  display: none;
+}
