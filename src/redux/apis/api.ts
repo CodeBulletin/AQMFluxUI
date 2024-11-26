@@ -5,9 +5,17 @@ import {
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query";
 
+declare global {
+  interface Window {
+    RUNTIME_CONFIG?: {
+      API_URL: string;
+    };
+  }
+}
+
 import { CustomBaseQueryType } from "@/types/types";
 
-export const API = "http://localhost:8080/api/v1";
+export const API = window.RUNTIME_CONFIG?.API_URL || "http://localhost:8080";
 
 export const endpoints = {
   weather: "/weather",

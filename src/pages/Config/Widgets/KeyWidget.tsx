@@ -14,10 +14,8 @@ const KeyWidget = () => {
   const [getConifgs, { data, isFetching, isSuccess, isError }] =
     useLazyGetConfigQuery();
 
-  const [
-    setConfigKeys,
-    { isSuccess: isSetSuccess, isLoading: isSetLoading, isError: isSetError },
-  ] = useSetConfigKeysMutation();
+  const [setConfigKeys, { isSuccess: isSetSuccess, isError: isSetError }] =
+    useSetConfigKeysMutation();
 
   const { toast } = useToast();
 

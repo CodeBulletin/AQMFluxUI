@@ -4,7 +4,7 @@ import StyledButton from "../Inputs/StyledButton";
 import StyledTextarea from "../Inputs/StyledTextarea";
 import StyledSelect from "../Inputs/StyledSelect";
 import StyledMultiSelect from "../Inputs/StyledMultiSelect";
-import { parse } from "path";
+// import { parse } from "path";
 
 export type DeviceFormSubmitProps = {
   name: string;
