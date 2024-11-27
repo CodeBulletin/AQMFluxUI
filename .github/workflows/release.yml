@@ -36,14 +36,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: /tmp/build
+          path: /tmp/dest
+
+      - name: Zip build artifact
+        run: zip -r /tmp/build.zip /tmp/dest
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            /tmp/build/*
-            /tmp/build/**/*
+          files: /tmp/build.zip
           token: ${{ env.GITHUB_PTA_TOKEN }}
           release_name: Release ${{ github.ref }}
           body_path: ${{ github.workspace }}/docs/CHANGELOG.md
