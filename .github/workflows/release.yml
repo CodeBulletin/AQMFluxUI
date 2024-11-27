@@ -50,9 +50,9 @@ jobs:
       - name: Send Notification Success
         if: success()
         run: |
-          curl -X POST -H "Authorization: bearer ${{ env.NOTIFICATION_AUTH }}" -H "Title:${{ github.event.repository.name }} - Release - ${{ github.ref }}" -d "Release Success - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }}
+          curl -X POST -H "Authorization: Bearer ${{ env.NOTIFICATION_AUTH }}" -H "Title:${{ github.event.repository.name }} - Release - ${{ github.ref }}" -d "Release Success - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }}
 
       - name: Send Notification Failure
         if: failure()
         run: |
-          curl -X POST -H "Authorization: bearer ${{ env.NOTIFICATION_AUTH }}" -H "Title:${{ github.event.repository.name }} - Release - ${{ github.ref }}" -d "Release Failed - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }}
+          curl -X POST -H "Authorization: Bearer ${{ env.NOTIFICATION_AUTH }}" -H "Title:${{ github.event.repository.name }} - Release - ${{ github.ref }}" -d "Release Failed - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }}
