@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+env:
+  NOTIFICATION_WEBHOOK: ${{ secrets.NOTIFICATION_WEBHOOK }}
+  NOTIFICATION_AUTH: ${{ secrets.NOTIFICATION_AUTH }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,3 +33,12 @@ jobs:
         with:
           name: build
           path: dist
+
+      - name: Send Notification
+        if: always()
+        run: |
+          if [ "${{ success() }}" = "true" ]; then
+            curl -X POST -H "Title: Release - ${{ github.ref }}" -d "Release Success - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }} -H "Authorization: bearer ${{ env.NOTIFICATION_AUTH }}"
+          else
+            curl -X POST -H "Title: Release - ${{ github.ref }}" -d "Release Failed - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }} -H "Authorization: bearer ${{ env.NOTIFICATION_AUTH }}"
+          fi
