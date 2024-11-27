@@ -34,11 +34,12 @@ jobs:
           name: build
           path: dist
 
-      - name: Send Notification
-        if: always()
+      - name: Send Notification Success
+        if: success()
         run: |
-          if [ "${{ success() }}" = "true" ]; then
-            curl -X POST -H "Title: Release - ${{ github.ref }}" -d "Release Success - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }} -H "Authorization: bearer ${{ env.NOTIFICATION_AUTH }}"
-          else
-            curl -X POST -H "Title: Release - ${{ github.ref }}" -d "Release Failed - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }} -H "Authorization: bearer ${{ env.NOTIFICATION_AUTH }}"
-          fi
+          curl -X POST -H "Title:${{ github.event.repository.name }} - Release - ${{ github.ref }}" -d "Release Success - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }} -H "Authorization: bearer ${{ env.NOTIFICATION_AUTH }}"
+
+      - name: Send Notification Failure
+        if: failure()
+        run: |
+          curl -X POST -H "Title:${{ github.event.repository.name }} - Release - ${{ github.ref }}" -d "Release Failed - ${{ github.ref }}" ${{ env.NOTIFICATION_WEBHOOK }} -H "Authorization: bearer ${{ env.NOTIFICATION_AUTH }}"
