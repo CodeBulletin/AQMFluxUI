@@ -1,9 +1,12 @@
-name: Build Application
+name: Release Application
 
 on:
   push:
     tags:
       - v*.*.*
+
+env:
+  GITHUB_PTA_TOKEN: ${{ secrets.GITHUBPTA }}
 
 jobs:
   build:
@@ -37,7 +40,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: /tmp/build/*
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ env.GITHUB_PTA_TOKEN }}
           release_name: ${{ github.ref }}
           body_path: ${{ github.workspace }}/docs/CHANGELOG.md
           prerelease: true
