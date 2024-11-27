@@ -41,7 +41,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: /tmp/build/*
+          files: /tmp/build
           token: ${{ env.GITHUB_PTA_TOKEN }}
           release_name: Release ${{ github.ref }}
           body_path: ${{ github.workspace }}/docs/CHANGELOG.md
