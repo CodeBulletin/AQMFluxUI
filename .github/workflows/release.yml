@@ -27,10 +27,16 @@ jobs:
           name: build
           path: dist
 
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: /tmp/build
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build
+          files: /tmp/build/*
           token: ${{ secrets.GITHUB_TOKEN }}
           release_name: ${{ github.ref }}
           body_path: ${{ github.workspace }}/docs/CHANGELOG.md
