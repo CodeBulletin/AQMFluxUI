@@ -38,14 +38,10 @@ jobs:
           name: build
           path: /tmp/dest
 
-      - name: change directory
-        run: cd /tmp/dest
-
       - name: Zip build artifact
-        run: zip -r build.zip .
-
-      - name: change directory
-        run: cd ../..
+        run: |
+          cd /tmp/dest
+          zip -r build.zip .
 
       - name: Release
         uses: softprops/action-gh-release@v2
