@@ -49,6 +49,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           body_path: ${{ github.workspace }}/docs/CHANGELOG.md
           prerelease: true
+          make_latest: true
 
       - name: Send Notification Success
         if: success()
