@@ -15,7 +15,8 @@ declare global {
 
 import { CustomBaseQueryType } from "@/types/types";
 
-export const API = window.RUNTIME_CONFIG?.API_URL || "http://localhost:8080";
+export const API =
+  window.RUNTIME_CONFIG?.API_URL || "http://localhost:8080/api/v1";
 
 export const endpoints = {
   weather: "/weather",
@@ -24,6 +25,9 @@ export const endpoints = {
   location: "/location",
   sensor: "/sensor",
   device: "/device",
+  message: "/message",
+  operator: "/operator",
+  alert: "/alert",
 };
 
 export const getBaseURL = (endpoint: string): CustomBaseQueryType => ({

@@ -129,7 +129,26 @@ const DeviceForm = ({
               disabled={!isNew}
             />
           </div>
-
+          <div className="w-80">
+            <StyledSelect
+              options={[
+                { value: "-1", label: "Select a location", disabled: true },
+                ...locations.map((location) => ({
+                  value: location.id.toString(),
+                  label: location.name,
+                  disabled: false,
+                })),
+              ]}
+              value={values.location.toString()}
+              onValueChange={(value) =>
+                setValues({
+                  ...values,
+                  location: parseInt(value),
+                })
+              }
+              label="Location"
+            />
+          </div>
           <div className="flex-grow">
             <StyledInput
               label="Name"
@@ -147,26 +166,6 @@ const DeviceForm = ({
             </StyledButton>
           )}
           <StyledButton type="submit">{isNew ? "Add" : "Update"}</StyledButton>
-        </div>
-
-        <div>
-          <StyledSelect
-            options={[
-              { value: "-1", label: "Select a location", disabled: true },
-              ...locations.map((location) => ({
-                value: location.id.toString(),
-                label: location.name,
-                disabled: false,
-              })),
-            ]}
-            value={values.location.toString()}
-            onValueChange={(value) =>
-              setValues({
-                ...values,
-                location: parseInt(value),
-              })
-            }
-          />
         </div>
 
         <div className="flex flex-row gap-4">

@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Clock } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type StyledIntervalProps = {
   label?: string;
@@ -18,6 +19,7 @@ type StyledIntervalProps = {
   min?: number;
   max?: number;
   labelSize?: string;
+  labelGap?: string;
 };
 
 const StyledInterval = ({
@@ -28,6 +30,7 @@ const StyledInterval = ({
   min = 1,
   max = 999,
   labelSize = "1.5rem",
+  labelGap = "gap-8",
 }: StyledIntervalProps) => {
   const [intervalUnit, setIntervalUnit] = useState(unit);
 
@@ -81,10 +84,10 @@ const StyledInterval = ({
   };
 
   return (
-    <div className="flex items-start gap-8">
+    <div className={cn("flex items-start", labelGap)}>
       <Label
         htmlFor="interval-input"
-        className="min-w-24 pt-3 text-zinc-400"
+        className="pt-3 text-zinc-300"
         style={{
           fontSize: labelSize,
         }}

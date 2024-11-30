@@ -3,11 +3,14 @@ import Sidemenu from "./components/menus/sidemenu";
 import { Route, Routes } from "react-router-dom";
 import Config from "./pages/Config/Config";
 import LoginForm from "./pages/Login/Login";
-import Add from "./pages/Add/Add";
-import VariablesWidget from "./pages/Add/widgets/VariableWidget";
-import LocationWidget from "./pages/Add/widgets/LocationWidget";
-import DeviceWidget from "./pages/Add/widgets/DeviceWidget";
-import SensorWidget from "./pages/Add/widgets/SensorWidget";
+import New from "./pages/New/New";
+import Notification from "./pages/Notifications/Notfications";
+import VariablesWidget from "./pages/New/widgets/VariableWidget";
+import LocationWidget from "./pages/New/widgets/LocationWidget";
+import DeviceWidget from "./pages/New/widgets/DeviceWidget";
+import SensorWidget from "./pages/New/widgets/SensorWidget";
+import MessageWidget from "./pages/Notifications/widgets/MessageWidget";
+import AlertWidget from "./pages/Notifications/widgets/AlertWidget";
 
 function App() {
   return (
@@ -16,11 +19,16 @@ function App() {
       <Routes>
         <Route path="/settings" element={<Config />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/add" element={<Add />}>
+        <Route path="/New" element={<New />}>
           <Route path="variables" element={<VariablesWidget />} />
           <Route path="locations" element={<LocationWidget />} />
           <Route path="sensors" element={<SensorWidget />} />
           <Route path="devices" element={<DeviceWidget />} />
+        </Route>
+        <Route path="/Notfications" element={<Notification />}>
+          <Route path="reminder" element={<div>Reminder</div>} />
+          <Route path="alert" element={<AlertWidget />} />
+          <Route path="message" element={<MessageWidget />} />
         </Route>
       </Routes>
     </div>

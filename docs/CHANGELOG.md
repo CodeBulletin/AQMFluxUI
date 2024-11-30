@@ -1,7 +1,4 @@
 ## Added
 
-- Added build notifications
-
-## Improved
-
-- Improved Release message and title
+- Added Messages Page and API
+- Started Working on Alert API and Page

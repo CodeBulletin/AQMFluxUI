@@ -40,7 +40,7 @@ const NavItem = ({
     </TooltipTrigger>
     <TooltipContent
       side="right"
-      className="bg-zinc-900 text-zinc-100 border border-zinc-800 px-3 py-1.5 rounded-md text-sm"
+      className="bg-zinc-900 text-zinc-100 border border-zinc-800 px-3 py-1.5 rounded-md text-sm z-10"
     >
       {label}
     </TooltipContent>

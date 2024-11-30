@@ -4,9 +4,9 @@ import {
   Users,
   Settings,
   BarChart,
-  Mail,
   PlusSquare,
   Webhook,
+  BellDot,
 } from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,8 +22,13 @@ const Sidemenu = () => {
     { id: "home", icon: Home, label: "Home", path: "/" },
     { id: "analytics", icon: BarChart, label: "Analytics", path: "/analytics" },
     { id: "users", icon: Users, label: "Users", path: "/users" },
-    { id: "messages", icon: Mail, label: "Messages", path: "/messages" },
-    { id: "Add", icon: PlusSquare, label: "Add", path: "/Add" },
+    { id: "new", icon: PlusSquare, label: "New", path: "/New" },
+    {
+      id: "notification",
+      icon: BellDot,
+      label: "Notifications",
+      path: "/Notfications",
+    },
   ];
 
   const bottomMenuItems = [

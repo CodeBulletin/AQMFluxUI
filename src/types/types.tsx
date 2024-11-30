@@ -74,3 +74,40 @@ export type DeviceType = {
   location: number;
   sensors: number[];
 };
+
+export type NotificationType = {
+  id: number;
+  topic: string;
+  title: string;
+  payload: string;
+  tags: string;
+  priority: number;
+};
+
+export type List = {
+  id: number;
+  name: string;
+};
+
+export type Operator = {
+  id: number;
+  op: string;
+  variables: string;
+};
+
+export type AlertType = {
+  id: number;
+  name: string;
+  device_id: number;
+  sensor_id: number;
+  attribute_id: number;
+  operator_id: number;
+  message_id: number;
+  value1: number;
+  value2: {
+    Valid: boolean;
+    Float64: number | null;
+  };
+  enabled: boolean;
+  frequency: number;
+};

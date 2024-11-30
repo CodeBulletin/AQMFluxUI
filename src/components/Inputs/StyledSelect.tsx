@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { Label } from "../ui/label";
 
 export interface Option {
   value: string;
@@ -23,6 +24,8 @@ export interface StyledSelectProps {
   error?: boolean;
   required?: boolean;
   name?: string;
+  label?: string;
+  labelFontSize?: string;
 }
 
 const StyledSelect = ({
@@ -35,6 +38,8 @@ const StyledSelect = ({
   error = false,
   required = false,
   name,
+  label,
+  labelFontSize = "text-lg",
 }: StyledSelectProps) => {
   return (
     <Select
@@ -44,32 +49,45 @@ const StyledSelect = ({
       required={required}
       name={name}
     >
-      <SelectTrigger
-        className={cn(
-          "w-full bg-zinc-950 border-zinc-800 text-zinc-100 ring-offset-zinc-950",
-          "focus:ring-zinc-800 hover:bg-zinc-900 [&>span]:text-zinc-400",
-          error && "border-red-500 focus:ring-red-500",
-          disabled && "opacity-50 cursor-not-allowed",
-          className
-        )}
-      >
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent className="bg-zinc-950 border-zinc-800">
-        {options.map((option) => (
-          <SelectItem
-            key={option.value}
-            value={option.value}
-            disabled={option.disabled}
-            className={cn(
-              "text-zinc-100 focus:bg-zinc-900 focus:text-zinc-100 hover:bg-zinc-900",
-              option.disabled && "opacity-50 cursor-not-allowed"
-            )}
+      <div className="flex flex-row gap-2 items-center">
+        {label && (
+          <Label
+            htmlFor="input-field"
+            className="text-zinc-300"
+            style={{
+              fontSize: labelFontSize,
+            }}
           >
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
+            {label}
+          </Label>
+        )}
+        <SelectTrigger
+          className={cn(
+            "w-full bg-zinc-950 border-zinc-800 text-zinc-100 ring-offset-zinc-950",
+            "focus:ring-zinc-800 hover:bg-zinc-900 [&>span]:text-zinc-400",
+            error && "border-red-500 focus:ring-red-500",
+            disabled && "opacity-50 cursor-not-allowed",
+            className
+          )}
+        >
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent className="bg-zinc-950 border-zinc-800">
+          {options.map((option) => (
+            <SelectItem
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+              className={cn(
+                "text-zinc-100 focus:bg-zinc-900 focus:text-zinc-100 hover:bg-zinc-900",
+                option.disabled && "opacity-50 cursor-not-allowed"
+              )}
+            >
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </div>
     </Select>
   );
 };

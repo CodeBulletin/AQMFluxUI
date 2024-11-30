@@ -22,7 +22,7 @@ const StyledTextarea = ({
   ...props
 }: StyledInputProps) => {
   return (
-    <div className={`flex items-start ${gap} ${direction}`}>
+    <div className={`flex items-start ${gap} ${direction} flex-grow`}>
       <Label
         htmlFor="input-field"
         className="min-w-24  text-zinc-300"
@@ -34,16 +34,16 @@ const StyledTextarea = ({
       </Label>
 
       <div
-        className="flex-1"
+        className="flex-1 h-full"
         style={{
           width: direction === "flex-col" ? "100%" : "auto",
         }}
       >
-        <div className="relative">
+        <div className="relative h-full">
           <Textarea
             id="input-field"
             placeholder={placeholder}
-            className="bg-zinc-950 border-zinc-800 text-zinc-200 pr-8"
+            className="bg-zinc-950 border-zinc-800 text-zinc-200 pr-8 h-full"
             {...props}
           />
           {Icon && (

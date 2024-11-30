@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { CustomBaseQuery, getBaseURL, endpoints } from "./api";
-import { SensorType, MessageType } from "@/types/types";
+import { SensorType, MessageType, List } from "@/types/types";
 
 const api = createApi({
   reducerPath: "SensorApi",
@@ -29,6 +29,13 @@ const api = createApi({
         credentials: "include",
       }),
     }),
+    getSensorsList: builder.query<List[], void>({
+      query: () => ({
+        url: "/all/",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -36,5 +43,6 @@ export const {
   useLazyGetSensorsQuery,
   useCreateSensorMutation,
   useUpdateSensorMutation,
+  useLazyGetSensorsListQuery,
 } = api;
 export default api;

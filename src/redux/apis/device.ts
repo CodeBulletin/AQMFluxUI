@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { CustomBaseQuery, getBaseURL, endpoints } from "./api";
-import { DeviceType, MessageType } from "@/types/types";
+import { DeviceType, List, MessageType } from "@/types/types";
 
 const api = createApi({
   reducerPath: "deviceApi",
@@ -29,6 +29,13 @@ const api = createApi({
         credentials: "include",
       }),
     }),
+    getDeviceList: builder.query<List[], void>({
+      query: () => ({
+        url: "/all/",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -36,5 +43,6 @@ export const {
   useLazyGetDevicesQuery,
   useCreateDeviceMutation,
   useUpdateDeviceMutation,
+  useLazyGetDeviceListQuery,
 } = api;
 export default api;
