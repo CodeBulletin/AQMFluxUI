@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import {
   Home,
-  Users,
   Settings,
   BarChart,
   PlusSquare,
   Webhook,
   BellDot,
+  MonitorCog,
 } from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavItem from "./navitem";
 
 const Sidemenu = () => {
-  const [active, setActive] = React.useState("home");
+  const [active, setActive] = React.useState<string | null>("home");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,7 +21,7 @@ const Sidemenu = () => {
   const mainMenuItems = [
     { id: "home", icon: Home, label: "Home", path: "/" },
     { id: "analytics", icon: BarChart, label: "Analytics", path: "/analytics" },
-    { id: "users", icon: Users, label: "Users", path: "/users" },
+    { id: "settings", icon: MonitorCog, label: "Users", path: "/settings" },
     { id: "new", icon: PlusSquare, label: "New", path: "/New" },
     {
       id: "notification",
@@ -32,7 +32,7 @@ const Sidemenu = () => {
   ];
 
   const bottomMenuItems = [
-    { id: "settings", icon: Settings, label: "Settings", path: "/settings" },
+    { id: "config", icon: Settings, label: "Settings", path: "/config" },
   ];
 
   const handleNavigation = (id: any, path: any) => {
@@ -41,20 +41,22 @@ const Sidemenu = () => {
   };
 
   useEffect(() => {
-    const activeItem = mainMenuItems.find(
-      (item) => item.path === location.pathname
-    );
+    let path = "/" + location.pathname.split("/")[1];
+    console.log(path);
+    const activeItem = mainMenuItems.find((item) => item.path === path);
     if (activeItem) {
       setActive(activeItem.id);
+      return;
     }
 
-    const bottomItem = bottomMenuItems.find(
-      (item) => item.path === location.pathname
-    );
+    const bottomItem = bottomMenuItems.find((item) => item.path === path);
 
     if (bottomItem) {
       setActive(bottomItem.id);
+      return;
     }
+
+    setActive(null);
   }, [location.pathname]);
 
   return (

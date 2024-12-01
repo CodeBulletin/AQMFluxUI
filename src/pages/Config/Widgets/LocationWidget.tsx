@@ -55,7 +55,6 @@ const LocationWidget = () => {
   }, [doCancel, startDebounce]);
 
   useEffect(() => {
-    console.log("debouncedLocation", debouncedLocation, ref.current?.hasMatch);
     if (debouncedLocation && !ref.current?.hasMatch) {
       const [city, state, country] = debouncedLocation
         .split(",")

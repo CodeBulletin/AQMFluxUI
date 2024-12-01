@@ -136,12 +136,22 @@ const VariablesWidget = () => {
     );
   }
 
-  const handleAddNew = (name: string, description: string, id: number) => {
-    createAttribute({ name, description, id });
+  const handleAddNew = (
+    name: string,
+    description: string,
+    id: number,
+    unit?: string
+  ) => {
+    createAttribute({ name, description, id, unit: unit || "" });
   };
 
-  const handleUpdate = (name: string, description: string, id: number) => {
-    updateAttribute({ name, description, id });
+  const handleUpdate = (
+    name: string,
+    description: string,
+    id: number,
+    unit?: string
+  ) => {
+    updateAttribute({ name, description, id, unit: unit || "" });
   };
 
   return (
@@ -169,6 +179,7 @@ const VariablesWidget = () => {
                   id={0}
                   name=""
                   description=""
+                  unit=""
                   isNew={true}
                   handleSubmission={handleAddNew}
                 />

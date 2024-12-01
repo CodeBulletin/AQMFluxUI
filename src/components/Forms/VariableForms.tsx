@@ -7,14 +7,21 @@ export type VariableFormProps = {
   id: number;
   name: string;
   description: string;
+  unit?: string;
   isNew?: boolean;
-  handleSubmission: (name: string, description: string, id: number) => void;
+  handleSubmission: (
+    name: string,
+    description: string,
+    id: number,
+    unit?: string
+  ) => void;
 };
 
 const VariableForms = ({
   id,
   name,
   description,
+  unit,
   handleSubmission,
   isNew = false,
 }: VariableFormProps) => {
@@ -22,6 +29,7 @@ const VariableForms = ({
     name: name,
     description: description,
     id: id,
+    unit: unit,
   });
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +61,7 @@ const VariableForms = ({
       return;
     }
 
-    handleSubmission(values.name, values.description, values.id);
+    handleSubmission(values.name, values.description, values.id, values.unit);
   };
 
   const handleRefresh = () => {
@@ -61,6 +69,7 @@ const VariableForms = ({
       name: name,
       description: description,
       id: id,
+      unit: unit,
     });
   };
 
@@ -92,6 +101,24 @@ const VariableForms = ({
               labelFontSize="text-lg"
             />
           </div>
+          {unit !== undefined && (
+            <div className="">
+              <StyledInput
+                label="Unit"
+                value={values.unit || ""}
+                onChange={(e) => {
+                  setValues({
+                    ...values,
+                    unit: e.target.value,
+                  });
+                }}
+                gap="gap-2"
+                direction="flex-row"
+                labelFontSize="text-lg"
+                placeholder="Unit"
+              />
+            </div>
+          )}
           {!isNew && (
             <StyledButton type="button" onClick={handleRefresh}>
               Refresh

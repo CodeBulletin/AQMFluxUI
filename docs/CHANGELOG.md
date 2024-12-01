@@ -1,4 +1,9 @@
 ## Added
 
 - Added Messages Page and API
-- Started Working on Alert API and Page
+- Added Alerts
+- Added units to measurements
+
+## Bug Fixes
+
+- Fixed a bug with sensor description not showing

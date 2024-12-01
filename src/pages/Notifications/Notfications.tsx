@@ -1,5 +1,5 @@
 import Sidebar from "@/components/menus/sidebar";
-import { CalendarDays, MessageSquarePlus, OctagonAlert } from "lucide-react";
+import { AlarmClockPlus, CalendarDays, MessageSquarePlus } from "lucide-react";
 import { Outlet } from "react-router-dom";
 
 const Notifications = () => {
@@ -16,7 +16,7 @@ const Notifications = () => {
             path: "./reminder",
           },
           {
-            icon: OctagonAlert,
+            icon: AlarmClockPlus,
             label: "Alert",
             path: "./alert",
           },

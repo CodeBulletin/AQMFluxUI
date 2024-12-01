@@ -9,7 +9,7 @@ const classNames = (...classes: any) => {
 };
 
 type NavItemProps = {
-  activepath: string;
+  activepath: string | null;
   path: string;
   Icon: any;
   label: string;

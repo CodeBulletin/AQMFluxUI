@@ -50,6 +50,7 @@ export type AttributeType = {
   id: number;
   name: string;
   description: string;
+  unit: string;
 };
 
 export type LocationType = {

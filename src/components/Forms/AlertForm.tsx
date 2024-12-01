@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StyledInput from "../Inputs/StyledInput";
 import StyledSelect from "../Inputs/StyledSelect";
 import StyledButton from "../Inputs/StyledButton";
@@ -38,7 +38,10 @@ export type AlertFormProps = {
   name?: string;
   enabled?: boolean;
   value1?: number;
-  value2?: number | null;
+  value2?: {
+    Valid: boolean;
+    Value: number | null;
+  };
   frequency?: number;
   handleSubmission: (data: AlertFormSubmitNewProps, id?: number) => void;
   handleDelete?: (id: number) => void;
@@ -55,7 +58,7 @@ const AlertForm = ({
   name = "",
   enabled = false,
   value1 = 0,
-  value2 = null,
+  value2 = { Valid: false, Value: null },
   frequency = 1,
   sensors,
   devices,
@@ -79,6 +82,35 @@ const AlertForm = ({
     frequency: frequency,
   });
 
+  useEffect(() => {
+    if (isNew) return;
+    setValues({
+      id: id,
+      sensor_id: sensor_id,
+      device_id: device_id,
+      attribute_id: attribute_id,
+      message_id: message_id,
+      operator_id: operator_id,
+      name: name,
+      enabled: enabled,
+      value1: value1,
+      value2: value2,
+      frequency: frequency,
+    });
+  }, [
+    id,
+    sensor_id,
+    device_id,
+    attribute_id,
+    message_id,
+    operator_id,
+    name,
+    enabled,
+    value1,
+    value2,
+    frequency,
+  ]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
       ...values,
@@ -91,7 +123,16 @@ const AlertForm = ({
       ...values,
       [e.target.name]: parseFloat(e.target.value),
     }));
-    console.log(values);
+  };
+
+  const handleValueChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues((_) => ({
+      ...values,
+      [e.target.name]: {
+        Valid: true,
+        Value: parseFloat(e.target.value),
+      },
+    }));
   };
 
   const handleSelectChange = (name: string) => (value: string) => {
@@ -115,8 +156,9 @@ const AlertForm = ({
         value1: values.value1,
         value2: {
           Valid:
+            values.value2.Valid &&
             operators.find((x) => x.id === values.operator_id)?.variables === 2,
-          Value: values.value2,
+          Value: values.value2.Value,
         },
         frequency: values.frequency,
       },
@@ -125,14 +167,19 @@ const AlertForm = ({
   };
 
   const handleRefresh = () => {
-    // setValues({
-    //   id: id,
-    //   topic: topic,
-    //   title: title,
-    //   priority: priority,
-    //   tags: tags,
-    //   payload: payload,
-    // });
+    setValues({
+      id: id,
+      sensor_id: sensor_id,
+      device_id: device_id,
+      attribute_id: attribute_id,
+      message_id: message_id,
+      operator_id: operator_id,
+      name: name,
+      enabled: enabled,
+      value1: value1,
+      value2: value2,
+      frequency: frequency,
+    });
   };
 
   return (
@@ -292,8 +339,8 @@ const AlertForm = ({
               <div className="">
                 <StyledInput
                   label=""
-                  value={(values.value2 || 0).toString()}
-                  onChange={handleValueChange}
+                  value={(values.value2.Value || 0).toString()}
+                  onChange={handleValueChange2}
                   gap="gap-0"
                   direction="flex-row"
                   labelFontSize="text-lg"

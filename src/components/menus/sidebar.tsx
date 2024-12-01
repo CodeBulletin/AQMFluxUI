@@ -23,7 +23,6 @@ const Sidebar = ({ pathDepth = 2, defaultPath = 0, paths }: SidebarProps) => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log(location.pathname.split("/")[pathDepth]);
     setActivePath(location.pathname.split("/")[pathDepth]);
   }, [location]);
 

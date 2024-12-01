@@ -1,7 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { CustomBaseQuery, getBaseURL, endpoints } from "./api";
 import { NotificationType, MessageType } from "@/types/types";
-import { get } from "http";
 
 const api = createApi({
   reducerPath: "messageAPI",

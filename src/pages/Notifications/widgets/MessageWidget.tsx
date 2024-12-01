@@ -1,8 +1,6 @@
 import MessageForm, {
   MessageFormSubmitNewProps,
 } from "@/components/Forms/MessageForm";
-import VariableForms from "@/components/Forms/VariableForms";
-import { SearchInput } from "@/components/Inputs/SearchInput";
 import SearchSelect from "@/components/Inputs/SearchSelect";
 import StyledButton from "@/components/Inputs/StyledButton";
 import Topbar from "@/components/menus/topbar";
@@ -220,7 +218,6 @@ const MessageWidget = () => {
   };
 
   const handleDelete = (id: number) => {
-    console.log(id);
     deleteMessage(id);
     setAddNew(false);
     getMessages();

@@ -4,8 +4,14 @@ import AlertForm, {
 import { SearchInput } from "@/components/Inputs/SearchInput";
 import StyledButton from "@/components/Inputs/StyledButton";
 import Topbar from "@/components/menus/topbar";
+import { Spinner } from "@/components/spinners/Spinner";
 import { useToast } from "@/hooks/useToast";
-import { useCreateAlertMutation } from "@/redux/apis/alert";
+import {
+  useCreateAlertMutation,
+  useDeleteAlertMutation,
+  useLazyGetAlertsQuery,
+  useUpdateAlertMutation,
+} from "@/redux/apis/alert";
 import { useLazyGetAttributeListQuery } from "@/redux/apis/attribute";
 import { useLazyGetDeviceListQuery } from "@/redux/apis/device";
 import { useLazyGetMessagesQuery } from "@/redux/apis/message";
@@ -20,23 +26,48 @@ const AlertWidget = () => {
 
   const [
     getDevicesList,
-    { data: devicesData, error: devicesError, isSuccess: deviceSuccess },
+    {
+      data: devicesData,
+      error: devicesError,
+      isSuccess: deviceSuccess,
+      isLoading: devicesLoading,
+    },
   ] = useLazyGetDeviceListQuery();
   const [
     getSensorList,
-    { data: sensorsData, error: sensorsError, isSuccess: sensorsSuccess },
+    {
+      data: sensorsData,
+      error: sensorsError,
+      isSuccess: sensorsSuccess,
+      isLoading: sensorsLoading,
+    },
   ] = useLazyGetSensorsListQuery();
   const [
     getAttributeList,
-    { data: attributeData, error: attributeError, isSuccess: attributeSuccess },
+    {
+      data: attributeData,
+      error: attributeError,
+      isSuccess: attributeSuccess,
+      isLoading: attributeLoading,
+    },
   ] = useLazyGetAttributeListQuery();
   const [
     getMessageList,
-    { data: messagesData, error: messagesError, isSuccess: messagesSuccess },
+    {
+      data: messagesData,
+      error: messagesError,
+      isSuccess: messagesSuccess,
+      isLoading: messagesLoading,
+    },
   ] = useLazyGetMessagesQuery();
   const [
     getOperatorList,
-    { data: operatorsData, error: operatorsError, isSuccess: operatorsSuccess },
+    {
+      data: operatorsData,
+      error: operatorsError,
+      isSuccess: operatorsSuccess,
+      isLoading: operatorsLoading,
+    },
   ] = useLazyGetOperatorsQuery();
 
   const [
@@ -44,11 +75,36 @@ const AlertWidget = () => {
     { isSuccess: alertSuccess, isError: alertError, isLoading: alertLoading },
   ] = useCreateAlertMutation();
 
-  const [isSuccess, setIsSuccess] = useState(true);
+  const [
+    deleteAlert,
+    {
+      isSuccess: alertDeleteSuccess,
+      isError: alertDeleteError,
+      isLoading: alertDeleteLoading,
+    },
+  ] = useDeleteAlertMutation();
+
+  const [
+    updateAlert,
+    {
+      isSuccess: alertUpdateSuccess,
+      isError: alertUpdateError,
+      isLoading: alertUpdateLoading,
+    },
+  ] = useUpdateAlertMutation();
+
+  const [
+    getAlerts,
+    {
+      data: alertsData,
+      isSuccess: alertsSuccess,
+      isError: alertsError,
+      isFetching: alertsLoading,
+    },
+  ] = useLazyGetAlertsQuery();
 
   useEffect(() => {
     if (devicesError) {
-      setIsSuccess(false);
       toast({
         title: "Error",
         description: "Failed to fetch devices",
@@ -59,7 +115,6 @@ const AlertWidget = () => {
 
   useEffect(() => {
     if (sensorsError) {
-      setIsSuccess(false);
       toast({
         title: "Error",
         description: "Failed to fetch sensors",
@@ -70,7 +125,6 @@ const AlertWidget = () => {
 
   useEffect(() => {
     if (attributeError) {
-      setIsSuccess(false);
       toast({
         title: "Error",
         description: "Failed to fetch attributes",
@@ -81,7 +135,6 @@ const AlertWidget = () => {
 
   useEffect(() => {
     if (messagesError) {
-      setIsSuccess(false);
       toast({
         title: "Error",
         description: "Failed to fetch messages",
@@ -92,7 +145,6 @@ const AlertWidget = () => {
 
   useEffect(() => {
     if (operatorsError) {
-      setIsSuccess(false);
       toast({
         title: "Error",
         description: "Failed to fetch operators",
@@ -103,7 +155,6 @@ const AlertWidget = () => {
 
   useEffect(() => {
     if (alertError) {
-      setIsSuccess(false);
       toast({
         title: "Error",
         description: "Failed to create alert",
@@ -113,8 +164,27 @@ const AlertWidget = () => {
   }, [alertError]);
 
   useEffect(() => {
+    if (alertDeleteError) {
+      toast({
+        title: "Error",
+        description: "Failed to delete alert",
+        variant: "error",
+      });
+    }
+  }, [alertDeleteError]);
+
+  useEffect(() => {
+    if (alertUpdateError) {
+      toast({
+        title: "Error",
+        description: "Failed to update alert",
+        variant: "error",
+      });
+    }
+  }, [alertUpdateError]);
+
+  useEffect(() => {
     if (alertSuccess) {
-      setIsSuccess(true);
       toast({
         title: "Success",
         description: "Alert created successfully",
@@ -125,7 +195,6 @@ const AlertWidget = () => {
 
   useEffect(() => {
     if (alertLoading) {
-      setIsSuccess(false);
       toast({
         title: "Loading",
         description: "Creating alert",
@@ -134,17 +203,60 @@ const AlertWidget = () => {
     }
   }, [alertLoading]);
 
+  useEffect(() => {
+    if (alertsError) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch alerts",
+        variant: "error",
+      });
+    }
+  }, [alertsError]);
+
+  useEffect(() => {
+    if (alertDeleteSuccess) {
+      toast({
+        title: "Success",
+        description: "Alert deleted successfully",
+        variant: "success",
+      });
+    }
+  }, [alertDeleteSuccess]);
+
+  useEffect(() => {
+    if (alertUpdateSuccess) {
+      toast({
+        title: "Success",
+        description: "Alert updated successfully",
+        variant: "success",
+      });
+    }
+  }, [alertUpdateSuccess]);
+
   const fetch = () => {
     getDevicesList();
     getSensorList();
     getAttributeList();
     getMessageList();
     getOperatorList();
+    getAlerts();
   };
 
   useEffect(() => {
     fetch();
   }, []);
+
+  const refresh = () => {
+    getAlerts();
+  };
+
+  useEffect(() => {
+    if (!alertLoading && !alertDeleteLoading && !alertUpdateLoading) {
+      if (alertSuccess || alertDeleteSuccess || alertUpdateSuccess) {
+        refresh();
+      }
+    }
+  }, [alertLoading, alertDeleteLoading, alertUpdateLoading]);
 
   const handleSave = (data: AlertFormSubmitNewProps) => {
     createAlert({
@@ -162,15 +274,68 @@ const AlertWidget = () => {
       },
       frequency: data.frequency,
     });
-    fetch();
+    setAddNew(false);
   };
 
-  const refresh = () => {
-    fetch();
+  const handleUpdate = (data: AlertFormSubmitNewProps, id?: number) => {
+    if (!id) {
+      toast({
+        title: "Error",
+        description: "Alert ID not provided",
+        variant: "error",
+      });
+      return;
+    }
+    updateAlert({
+      id: id,
+      sensor_id: data.sensor_id,
+      device_id: data.device_id,
+      attribute_id: data.attribute_id,
+      message_id: data.message_id,
+      operator_id: data.operator_id,
+      name: data.name,
+      enabled: data.enabled,
+      value1: data.value1,
+      value2: {
+        Valid: data.value2.Valid,
+        Float64: data.value2.Value,
+      },
+      frequency: data.frequency,
+    });
   };
+
+  const handleDelete = (id: number) => {
+    deleteAlert(id);
+    refresh();
+  };
+
+  if (
+    alertLoading ||
+    alertsLoading ||
+    devicesLoading ||
+    sensorsLoading ||
+    attributeLoading ||
+    messagesLoading ||
+    operatorsLoading
+  ) {
+    return (
+      <>
+        <Topbar
+          centerChildren={
+            <div className="flex items-center gap-2">
+              <Spinner />
+            </div>
+          }
+        />
+        <div className="w-full p-4 bg-zinc-800/50 rounded-xl flex-grow min-h-0 basis-0 overflow-hidden">
+          <Spinner />
+        </div>
+      </>
+    );
+  }
 
   return (
-    isSuccess && (
+    alertsSuccess && (
       <>
         <Topbar
           centerChildren={<SearchInput setValue={setSearch} value={search} />}
@@ -197,6 +362,7 @@ const AlertWidget = () => {
                 <div className="p-4 bg-zinc-900 rounded-xl flex flex-col gap-2">
                   <AlertForm
                     id={0}
+                    key={-1}
                     isNew={true}
                     handleSubmission={handleSave}
                     sensors={sensorsData}
@@ -214,6 +380,62 @@ const AlertWidget = () => {
                   />
                 </div>
               )}
+            {alertsData.filter((alert) =>
+              alert.name.toLowerCase().includes(search.toLowerCase())
+            ).length === 0 ? (
+              <div className="flex items-center justify-center h-full">
+                <h1 className="text-zinc-300 text-lg">No alerts found</h1>
+              </div>
+            ) : (
+              deviceSuccess &&
+              sensorsSuccess &&
+              attributeSuccess &&
+              messagesSuccess &&
+              operatorsSuccess &&
+              alertsData
+                .filter((alert) =>
+                  alert.name.toLowerCase().includes(search.toLowerCase())
+                )
+                .map((alert) => (
+                  <div
+                    key={alert.id}
+                    className="p-4 bg-zinc-900 rounded-xl flex flex-col gap-2"
+                  >
+                    <AlertForm
+                      key={alert.id}
+                      id={alert.id}
+                      isNew={false}
+                      handleSubmission={handleUpdate}
+                      sensors={sensorsData}
+                      devices={devicesData}
+                      attributes={attributeData}
+                      messages={messagesData.map((message) => ({
+                        id: message.id,
+                        name: message.title,
+                      }))}
+                      operators={operatorsData.map((operator) => ({
+                        id: operator.id,
+                        name: operator.op,
+                        variables: parseInt(operator.variables),
+                      }))}
+                      sensor_id={alert.sensor_id}
+                      device_id={alert.device_id}
+                      attribute_id={alert.attribute_id}
+                      message_id={alert.message_id}
+                      operator_id={alert.operator_id}
+                      name={alert.name}
+                      enabled={alert.enabled}
+                      value1={alert.value1}
+                      value2={{
+                        Valid: alert.value2.Valid,
+                        Value: alert.value2.Float64,
+                      }}
+                      frequency={alert.frequency}
+                      handleDelete={handleDelete}
+                    />
+                  </div>
+                ))
+            )}
           </div>
         </div>
       </>
